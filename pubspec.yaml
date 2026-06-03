@@ -41,18 +41,22 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^6.0.0
   
+  # Konfigurasi Ikon Aplikasi (Spasi sudah dirapikan)
   flutter_launcher_icons:
     version: ^0.13.1
     android: true
     ios: false
     image_path: "assets/images/logo.png"
+
+  # Konfigurasi Splash Screen (Spasi sudah dikunci pas)
   flutter_native_splash:
-    version
-    color: "#F8FAFC" 
+    version: ^2.4.0
+    color: "#F8FAFC"
     image: assets/images/splash.png
     android_12:
       image: assets/images/splash.png
       color: "#F8FAFC"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
