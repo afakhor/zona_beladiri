@@ -28,10 +28,10 @@ jobs:
       - name: Ambil Dependensi Project
         run: flutter pub get
 
-    #  - name: Jalankan Perangkat Pembuat Gambar/Splash
-    #    run: |
-    #      flutter pub run flutter_launcher_icons
-    #      flutter pub run flutter_native_splash:create
+      - name: Jalankan Perangkat Pembuat Gambar/Splash
+        run: |
+          flutter pub run flutter_launcher_icons
+          flutter pub run flutter_native_splash:create
 
       - name: Compile Menjadi APK Debug/Release
         run: flutter build apk --debug # Gunakan --release jika sudah setup Keystore
