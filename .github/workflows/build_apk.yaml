@@ -22,7 +22,7 @@ jobs:
       - name: Setup Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.x' # Sesuai versi stabil saat ini
+          flutter-version: '3.24.5' # Menggunakan versi stabil yang kebal dari error Groovy
           channel: 'stable'
 
       - name: Ambil Dependensi Project
@@ -34,7 +34,7 @@ jobs:
           flutter pub run flutter_native_splash:create
 
       - name: Compile Menjadi APK Debug/Release
-        run: flutter build apk --debug # Gunakan --release jika sudah setup Keystore
+        run: flutter build apk --debug
 
       - name: Upload File APK Hasil Jadi
         uses: actions/upload-artifact@v4
