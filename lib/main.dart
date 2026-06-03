@@ -14,35 +14,46 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:ui' as ui;
 
-// 1. TARUH KUNCI FOTO DI LUAR CLASS (GLOBAL)
+// 1. KUNCI FOTO DI LUAR CLASS (GLOBAL)
 final GlobalKey kunciFotoOtomatis = GlobalKey();
 
-// 2. TARUH FUNGSI PENGIRIM GAMBAR DI LUAR CLASS (GLOBAL)
+// 2. FUNGSI PENGIRIM GAMBAR - VERSI AMAN (ANTI-CRASH MEMORI)
 Future<void> autoUpdateHomescreenWidget(String namaAtlet) async {
   try {
-    RenderRepaintBoundary? boundary = kunciFotoOtomatis.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+    // Pastikan context grafik dashboard-nya eksis dan terdeteksi kamera
+    final boundaryContext = kunciFotoOtomatis.currentContext;
+    if (boundaryContext == null) return;
+
+    final RenderRepaintBoundary? boundary = boundaryContext.findRenderObject() as RenderRepaintBoundary?;
     if (boundary == null) return;
 
+    // Jepret gambar dengan rasio tinggi agar grafik di widget HP tajam tidak buram
     ui.Image image = await boundary.toImage(pixelRatio: 2.0);
-    var byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    final bytes = byteData!.buffer.asUint8List();
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    if (byteData == null) return;
+    
+    // Konversi byte yang aman dan kompatibel dengan Flutter versi baru
+    final Uint8List bytes = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
 
+    // Ambil alamat penyimpanan internal HP untuk menaruh file foto sementara
     final direktoriHP = await getApplicationDocumentsDirectory();
     final fileGambar = File('${direktoriHP.path}/grafik_atlet_live.png');
     await fileGambar.writeAsBytes(bytes);
 
+    // Kirim data Nama dan Alamat Foto menembus jembatan native Android
     await HomeWidget.saveWidgetData<String>('key_nama', namaAtlet);
     await HomeWidget.saveWidgetData<String>('key_path_grafik', fileGambar.path);
 
+    // Perintahkan class Java untuk memaksa Widget di layar HP melakukan refresh/update visual
     await HomeWidget.updateWidget(
-      name: 'AtletWidgetProvider',
-      androidLayout: 'widget_atlet_layout',
+      name: 'AtletWidgetProvider', // <-- Sesuai dengan nama class di AtletWidgetProvider.java
+      androidLayout: 'widget_atlet_layout', // <-- Sesuai dengan nama file widget_atlet_layout.xml
     );
+    print("🚀 Widget Homescreen Berhasil Diperbarui Secara Realtime!");
   } catch (e) {
-    debugPrint("Gagal generate grafik live: $e");
+    debugPrint("⚠️ Gagal otomatisasi update widget: $e");
   }
 }
-
 
 void main() {
 
