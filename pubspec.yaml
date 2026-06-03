@@ -46,20 +46,18 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-#  flutter_launcher_icons: ^0.13.1
- # flutter_native_splash: ^2.4.0
-
- #  flutter_launcher_icons:
-  #android: true
-  #ios: false
-  #image_path: "assets/images/logo.png"
-
-#flutter_native_splash:
- # color: "#F8FAFC" # Warna Navy Deep dashboard Anda
- # image: assets/images/splash.png
- # android_12:
- #   image: assets/images/splash.png
- #   color: "#F8FAFC"
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.0
+  flutter_launcher_icons:
+    android: true
+    ios: false
+    image_path: "assets/images/logo.png"
+  flutter_native_splash:
+    color: "#F8FAFC" # Warna Navy Deep dashboard Anda
+    image: assets/images/splash.png
+ #  android_12:
+ #    image: assets/images/splash.png
+ #    color: "#F8FAFC"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -70,8 +68,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  #assets:
-   # - assets/images/
+  assets:
+    - assets/images/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
