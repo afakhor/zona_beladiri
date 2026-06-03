@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 // 1. TAMBAHKAN IMPORT INI
 import 'package:flutter_native_splash/flutter_native_splash.dart'; 
@@ -11,7 +12,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'dart:ui' as ui;
 
+// 1. TARUH KUNCI FOTO DI LUAR CLASS (GLOBAL)
+final GlobalKey kunciFotoOtomatis = GlobalKey();
+
+// 2. TARUH FUNGSI PENGIRIM GAMBAR DI LUAR CLASS (GLOBAL)
+Future<void> autoUpdateHomescreenWidget(String namaAtlet) async {
+  try {
+    RenderRepaintBoundary? boundary = kunciFotoOtomatis.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+    if (boundary == null) return;
+
+    ui.Image image = await boundary.toImage(pixelRatio: 2.0);
+    var byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    final bytes = byteData!.buffer.asUint8List();
+
+    final direktoriHP = await getApplicationDocumentsDirectory();
+    final fileGambar = File('${direktoriHP.path}/grafik_atlet_live.png');
+    await fileGambar.writeAsBytes(bytes);
+
+    await HomeWidget.saveWidgetData<String>('key_nama', namaAtlet);
+    await HomeWidget.saveWidgetData<String>('key_path_grafik', fileGambar.path);
+
+    await HomeWidget.updateWidget(
+      name: 'AtletWidgetProvider',
+      androidLayout: 'widget_atlet_layout',
+    );
+  } catch (e) {
+    debugPrint("Gagal generate grafik live: $e");
+  }
+}
 
 
 void main() {
@@ -809,8 +839,14 @@ class DashboardAtletPage extends StatelessWidget {
     required this.dapatkanBoxIndexFunc
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
+// 3. TARUH PEMICU OTOMATISNYA DI SINI (Tepat setelah kurung kurawal build)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      autoUpdateHomescreenWidget(activeMurid.nama);
+    });
+
     return Scaffold(
       backgroundColor: const Color(0xFF0F172A), // Navy Deep
       appBar: AppBar(
