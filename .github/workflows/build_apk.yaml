@@ -3,7 +3,7 @@ name: Flutter Auto Build APK
 on:
   push:
     branches:
-      - main # Memicu build setiap kali push ke branch main
+      - main
 
 jobs:
   build:
@@ -13,16 +13,21 @@ jobs:
       - name: Tarik Kode dari Repository
         uses: actions/checkout@v4
 
+      # KEMBALI KE JAVA 17 AGAR GRADLE TIDAK MOGOK
       - name: Setup Java Jdk
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '11'
+          java-version: '17'
+
+      # KITA SUNTIKKAN OBAT PENAWAR BENDERA JVM DI SINI
+      - name: Konfigurasi Akses XML Java 17
+        run: echo "GRADLE_OPTS=-Dorg.gradle.jvmargs=--add-opens=java.base/java.lang=ALL-UNNAMED" >> $GITHUB_ENV
 
       - name: Setup Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.5' # Menggunakan versi stabil yang kebal dari error Groovy
+          flutter-version: '3.24.5'
           channel: 'stable'
 
       - name: Ambil Dependensi Project
