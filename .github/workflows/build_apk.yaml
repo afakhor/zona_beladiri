@@ -37,6 +37,13 @@ jobs:
         run: |
           flutter clean
           flutter pub get
+          
+          # JURUS PAMUNGKAS: Buat file penunjuk jalan secara paksa untuk si robot!
+          cd android
+          echo "sdk.dir=/usr/local/lib/android/sdk" > local.properties
+          echo "flutter.sdk=$FLUTTER_ROOT" >> local.properties
+          cd ..
+          
           rm -rf android/.gradle
           flutter build apk --debug --android-skip-build-dependency-validation
 
