@@ -33,12 +33,15 @@ jobs:
           flutter pub run flutter_launcher_icons || true
           flutter pub run flutter_native_splash:create || true
 
-      - name: Compile Menjadi APK Debug
+            - name: Compile Menjadi APK Debug
         run: |
-          flutter clean
+          # 1. Hapus folder android lama yang bermasalah (jika perlu)
+          # 2. Suruh flutter buat ulang file-file yang hilang
           flutter pub get
+          flutter create . --platforms android
+          
+          # 3. Masuk dan jalankan build
           cd android
-          # Memberi izin eksekusi agar gradlew tidak error 'Permission Denied'
           chmod +x gradlew
           ./gradlew clean
           cd ..
