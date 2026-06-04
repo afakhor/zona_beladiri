@@ -37,6 +37,9 @@ jobs:
         run: |
           flutter clean
           flutter pub get
+          cd android
+          ./gradlew clean  # <--- Tambahkan baris pembersih ini Coach!
+          cd ..
           flutter build apk --debug --android-skip-build-dependency-validation
 
       - name: Upload File APK Hasil Jadi
