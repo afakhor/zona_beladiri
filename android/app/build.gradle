@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId ""com.heruwngchn.addhmescrn"
+        applicationId "com.heruwngchn.addhmescrn"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
