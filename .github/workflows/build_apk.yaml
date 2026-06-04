@@ -33,7 +33,7 @@ jobs:
           flutter pub run flutter_launcher_icons || true
           flutter pub run flutter_native_splash:create || true
 
-            - name: Compile Menjadi APK Debug
+      - name: Compile Menjadi APK Debug
         run: |
           flutter clean
           flutter pub get
