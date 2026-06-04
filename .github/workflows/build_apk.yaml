@@ -36,6 +36,8 @@ jobs:
       - name: Compile Menjadi APK Debug
         run: |
           flutter clean
+          rm -rf android/.gradle
+          rm -f android/local.properties
           flutter pub get
           cd android
           ./gradlew clean  # <--- Tambahkan baris pembersih ini Coach!
