@@ -12,6 +12,7 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://storage.googleapis.com/download.flutter.io" } // <--- TOKO PUSAT FLUTTER
         gradlePluginPortal()
     }
 }
@@ -27,6 +28,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://storage.googleapis.com/download.flutter.io" } // <--- TOKO PUSAT FLUTTER
     }
 }
 
