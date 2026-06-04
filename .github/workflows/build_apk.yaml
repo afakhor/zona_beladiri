@@ -33,16 +33,11 @@ jobs:
           flutter pub run flutter_launcher_icons || true
           flutter pub run flutter_native_splash:create || true
 
-      - name: Compile Menjadi APK Debug
+            - name: Compile Menjadi APK Debug
         run: |
           flutter clean
           flutter pub get
-          cd android
-          # Paksa hapus folder cache gradle lokal di server
-          rm -rf .gradle
-          chmod +x gradlew
-          ./gradlew clean
-          cd ..
+          rm -rf android/.gradle
           flutter build apk --debug --android-skip-build-dependency-validation
 
       - name: Upload File APK Hasil Jadi
