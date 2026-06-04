@@ -1,12 +1,22 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { net ->
+        localProperties.load(net)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode') ?: '1'
+def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '1.0'
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // Tambahkan baris di bawah ini:
     id "dev.flutter.flutter-gradle-plugin"
 }
 
 android {
-    namespace "com.heruwngchn.addhmescrn" // Pastikan sesuai nama paket Coach
+    namespace "com.heruwngchn.addhmescrn"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
