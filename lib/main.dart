@@ -46,9 +46,8 @@ Future<void> autoUpdateHomescreenWidget(String namaAtlet) async {
 
     // Perintahkan class Java untuk memaksa Widget di layar HP melakukan refresh/update visual
     await HomeWidget.updateWidget(
-      name: 'AtletWidgetProvider', // <-- Sesuai dengan nama class di AtletWidgetProvider.java
-      androidLayout: 'widget_atlet_layout', // <-- Sesuai dengan nama file widget_atlet_layout.xml
-    );
+  name: 'AtletWidgetProvider',
+);
     print("🚀 Widget Homescreen Berhasil Diperbarui Secara Realtime!");
   } catch (e) {
     debugPrint("⚠️ Gagal otomatisasi update widget: $e");
