@@ -1,12 +1,14 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    // Tambahkan baris di bawah ini:
     id "dev.flutter.flutter-gradle-plugin"
 }
 
 android {
-    namespace "com.heruwngchn.addhmescrn" // Sesuaikan dengan package name Coach
+    namespace "com.heruwngchn.addhmescrn" // Pastikan sesuai nama paket Coach
     compileSdk flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -18,11 +20,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.heruwngchn.addhmescrn" // Sesuaikan juga di sini
-        minSdk flutter.minSdkVersion
-        targetSdk flutter.targetSdkVersion
-        versionCode flutter.versionCode
-        versionName flutter.versionName
+        applicationId ""com.heruwngchn.addhmescrn"
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
     }
 
     buildTypes {
@@ -33,5 +35,5 @@ android {
 }
 
 flutter {
-    source "../.."
+    source '../..'
 }
