@@ -13,20 +13,25 @@ jobs:
       - name: Tarik Kode dari Repository
         uses: actions/checkout@v4
 
-      # Menggunakan Java 17 yang stabil dan aman
       - name: Setup Java Jdk
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      # KITA GUNAKAN FLUTTER VERSI BARU YANG SUDAH BEBAS DARI ERROR GROOVY
       - name: Setup Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.27.x' # Mengunci ke rumpun 3.27 yang sudah diperbaiki Google
+          flutter-version: '3.27.4'
           channel: 'stable'
-          cache: true # Mengaktifkan cache agar build berikutnya lebih cepat
+
+      # ========================================================
+      # OPERASI SENYAP: HAPUS PAKSA BARIS GROOVY YANG RUSAK
+      # ========================================================
+      - name: Operasi Pembedahan Internal Groovy Flutter
+        run: |
+          sed -i '/import groovy.xml.QName/d' $FLUTTER_ROOT/packages/flutter_tools/gradle/src/main/groovy/flutter.groovy
+          echo "✓ Baris import groovy yang rusak berhasil diamputasi!"
 
       - name: Ambil Dependensi Project
         run: flutter pub get
@@ -42,5 +47,5 @@ jobs:
       - name: Upload File APK Hasil Jadi
         uses: actions/upload-artifact@v4
         with:
-          name: Aplikasi-Hapkido-APK
+          name: Zona_beladiri
           path: build/app/outputs/flutter-apk/app-debug.apk
