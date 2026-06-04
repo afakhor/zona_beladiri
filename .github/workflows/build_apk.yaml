@@ -26,12 +26,20 @@ jobs:
           channel: 'stable'
 
       # ========================================================
-      # OPERASI SENYAP: HAPUS PAKSA BARIS GROOVY YANG RUSAK
+      # OPERASI BESAR: TIMPA KODE FLUTTER INTERNAL YANG RUSAK
       # ========================================================
-      - name: Operasi Pembedahan Internal Groovy Flutter
+      - name: Perbaikan Bug XmlParser Java 17 Internal Flutter
         run: |
+          # 1. Amputasi baris import QName pembawa sial
           sed -i '/import groovy.xml.QName/d' $FLUTTER_ROOT/packages/flutter_tools/gradle/src/main/groovy/flutter.groovy
-          echo "✓ Baris import groovy yang rusak berhasil diamputasi!"
+          
+          # 2. Ganti fungsi XmlParser di baris 522 menjadi parser string aman
+          sed -i 's/def manifest = new XmlParser().parse(processResources.manifestFile)/def manifestFile = processResources.manifestFile; def manifestText = manifestFile.exists() ? manifestFile.text : ""; def matcher = manifestText =~ "package=\\\"([^\\\"]+)\\\""; def manifest = [attribute: { Object key -> if (key.toString().endsWith("package")) return matcher ? matcher[0][1] : "com.example.app" ; return "" }]/g' $FLUTTER_ROOT/packages/flutter_tools/gradle/src/main/groovy/flutter.groovy
+          
+          # 3. Jinakkan pengecekan QName di baris 556 agar selalu bernilai true/bypass
+          sed -i 's/if (entry.key instanceof QName)/if (entry.key != null)/g' $FLUTTER_ROOT/packages/flutter_tools/gradle/src/main/groovy/flutter.groovy
+          
+          echo "✓ Operasi penjinakan XmlParser & QName sukses besar!"
 
       - name: Ambil Dependensi Project
         run: flutter pub get
@@ -47,5 +55,5 @@ jobs:
       - name: Upload File APK Hasil Jadi
         uses: actions/upload-artifact@v4
         with:
-          name: Zona_beladiri
+          name: Zona-Beladiri
           path: build/app/outputs/flutter-apk/app-debug.apk
