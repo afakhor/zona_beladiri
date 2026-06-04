@@ -35,13 +35,11 @@ jobs:
 
       - name: Compile Menjadi APK Debug
         run: |
-          # 1. Hapus folder android lama yang bermasalah (jika perlu)
-          # 2. Suruh flutter buat ulang file-file yang hilang
+          flutter clean
           flutter pub get
-          flutter create . --platforms android
-          
-          # 3. Masuk dan jalankan build
           cd android
+          # Paksa hapus folder cache gradle lokal di server
+          rm -rf .gradle
           chmod +x gradlew
           ./gradlew clean
           cd ..
