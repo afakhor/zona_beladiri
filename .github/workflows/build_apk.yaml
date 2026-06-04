@@ -36,9 +36,12 @@ jobs:
       - name: Compile Menjadi APK Debug
         run: |
           flutter clean
+          
+          # JURUS SAPU BERSIH: Paksa Flutter buat ulang file yang error!
+          flutter create . --platforms=android
+          
           flutter pub get
           
-          # JURUS PAMUNGKAS: Buat file penunjuk jalan secara paksa untuk si robot!
           cd android
           echo "sdk.dir=/usr/local/lib/android/sdk" > local.properties
           echo "flutter.sdk=$FLUTTER_ROOT" >> local.properties
